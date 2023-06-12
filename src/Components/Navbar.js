@@ -1,7 +1,12 @@
-import { NavLink } from "react-router-dom";
-import { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Badge from "react-bootstrap/Badge";
+import Modal from "../Modal";
+import Cart from "../screens/Cart";
 
 const Navbar = () => {
+  const [cartView, setCartView] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       const navbar = document.querySelector(".navbar");
@@ -19,6 +24,13 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/login");
+  };
 
   return (
     <>
@@ -38,23 +50,64 @@ const Navbar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
+            <ul className="navbar-nav me-auto mx-5">
               <li className="nav-item">
-                <NavLink className="nav-link active" aria-current="page" to="/">
+                <NavLink
+                  className="nav-link active fs-5"
+                  aria-current="page"
+                  to="/">
                   Home
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/login">
+
+              {localStorage.getItem("authToken") ? (
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link active fs-5"
+                    aria-current="page"
+                    to="/">
+                    My Orders
+                  </NavLink>
+                </li>
+              ) : (
+                ""
+              )}
+            </ul>
+
+            {!localStorage.getItem("authToken") ? (
+              <div className="d-flex">
+                <NavLink className="btn bg-white text-dark mx-1" to="/login">
                   Login
                 </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/signup">
+
+                <NavLink className="btn bg-white text-dark mx-1" to="/signup">
                   Sign Up
                 </NavLink>
-              </li>
-            </ul>
+              </div>
+            ) : (
+              <>
+                <div
+                  className="btn bg-white text-dark mx-5"
+                  onClick={() => setCartView(true)}>
+                  My Cart{" "}
+                  <Badge pill bg-danger>
+                    2
+                  </Badge>
+                </div>
+
+                {cartView ? (
+                  <Modal onClose={() => setCartView(false)}>
+                    <Cart />
+                  </Modal>
+                ) : null}
+
+                <div
+                  className="btn bg-white text-danger"
+                  onClick={handleLogout}>
+                  Logout
+                </div>
+              </>
+            )}
           </div>
         </div>
       </nav>

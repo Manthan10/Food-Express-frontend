@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [creadentials, setCreadentials] = useState({
@@ -10,6 +10,8 @@ const SignUp = () => {
     geolocation: "",
   });
 
+  let navigate = useNavigate();
+
   const writeInput = (e) => {
     setCreadentials({ ...creadentials, [e.target.name]: e.target.value });
   };
@@ -17,23 +19,6 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const res = await fetch("https://localhost:5000/api/createuser", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     name: creadentials.name,
-    //     email: creadentials.email,
-    //     password: creadentials.password,
-    //     location: creadentials.geolocation,
-    //   }),
-    // });
-    // const json = res.json();
-    // console.log(json);
-    // if (!json.success) {
-    //   alert("enter valid credentials");
-    // }
     try {
       const res = await axios.post("http://localhost:5000/api/createuser", {
         name: creadentials.name,
@@ -42,11 +27,15 @@ const SignUp = () => {
         location: creadentials.geolocation,
       });
 
-      console.log(res.data);
-      if (!res.success) {
-        alert("enter valid credentials");
+      console.log(res);
+
+      if (!res.data.success) {
+        alert("Enter valid credentials");
+      } else {
+        localStorage.setItem("authToken", res.data.authToken);
+        console.log(localStorage.getItem("authToken"));
+        navigate("/");
       }
-      //   setCreadentials(res);
     } catch (err) {
       console.log(err);
     }
