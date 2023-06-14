@@ -12,7 +12,7 @@ const Home = () => {
   const loadData = async () => {
     try {
       const res = await axios.post("http://localhost:5000/api/foodData");
-      // console.log(res.data[0]);
+
       setFoodItem(res.data[0]);
       setFoodCat(res.data[1]);
     } catch (error) {
@@ -138,7 +138,7 @@ const Home = () => {
                 </div>
               );
             })
-          : " "}
+          : ""}
       </div>
       <Footer />
     </>

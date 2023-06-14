@@ -2,7 +2,7 @@ import ReactDom from "react-dom";
 
 const MODAL_STYLES = {
   position: "fixed",
-  top: "50%",
+  top: "70%",
   left: "50%",
   backgroundColor: "rgb(34,34,34)",
   transform: "translate(-50%, -50%)",
@@ -28,7 +28,10 @@ const Modal = ({ children, onClose }) => {
       <div style={MODAL_STYLES}>
         <button
           className="btn bg-danger fs-4"
-          style={{ marginLeft: "90%", margin: "50px 10px 30px 0" }}
+          style={{
+            marginLeft: "90%",
+            margin: "0px 10px 30px 0",
+          }}
           onClick={onClose}>
           X
         </button>
