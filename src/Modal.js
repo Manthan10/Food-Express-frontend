@@ -2,13 +2,14 @@ import ReactDom from "react-dom";
 
 const MODAL_STYLES = {
   position: "fixed",
-  top: "70%",
+  top: "65%",
   left: "50%",
   backgroundColor: "rgb(34,34,34)",
   transform: "translate(-50%, -50%)",
   zIndex: 1000,
   height: "90%",
   width: "90%",
+  borderRadius: "10px",
 };
 
 const OVERLAY_STYLES = {
@@ -17,7 +18,7 @@ const OVERLAY_STYLES = {
   left: 0,
   right: 0,
   bottom: 0,
-  backgroundColor: "rgba(0, 0, 0, .7)",
+  backgroundColor: "rgba(0, 0, 0, 0.7)",
   zIndex: 1000,
 };
 
@@ -29,8 +30,8 @@ const Modal = ({ children, onClose }) => {
         <button
           className="btn bg-danger fs-4"
           style={{
-            marginLeft: "90%",
-            margin: "0px 10px 30px 0",
+            margin: "-30px 10px 30px 0",
+            marginLeft: "95%",
           }}
           onClick={onClose}>
           X
